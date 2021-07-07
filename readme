@@ -36,5 +36,7 @@ from https://corpus.canterbury.ac.nz/descriptions.
     2496
 
 the results can vary depending on what is and how it is measured but in general,
-lexi never seems to cross 1MiB.
+lexi never seems to cross 1MiB. 
+
+the point is, lexi needs *far less* than 5G of memory to lex 5G of data.
 

@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "lexi/data.h"
 #include "lexi/lex.h"
 
 int main(void) {
-    char buf[79];
+    char buf[DEFAULT_LINE_BUF_SIZE];
     size_t len;
     struct lexer lex;
     struct token tok;
@@ -15,9 +16,6 @@ int main(void) {
     while (fgets(buf, sizeof(buf), stdin) != NULL) {
         len = strlen(buf);
         lexFill(&lex, buf, len);
-
-        //fprintf(stderr, "\nFILL BUF\n");
-        //lexPrint(&lex);
 
         while (lexNext(&lex, &tok)) {
             fprintf(
@@ -34,7 +32,7 @@ int main(void) {
 
     // Append some whitespace to let the lexer consume the final token (if any).
     lexFill(&lex, "\n ", 2);
-    while (lexNext(&lex, &tok))
+    while (lexNext(&lex, &tok)) {
         fprintf(
             stdout,
             "(%zu %u:%u) %.*s\n",
@@ -44,6 +42,7 @@ int main(void) {
             (int) tok.len,
             tok.lexeme
         );
+    }
 
     lexFree(&lex);
 

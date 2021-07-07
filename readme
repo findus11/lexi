@@ -16,15 +16,25 @@ each token onto its own line with the token type, lexeme length, and lexeme. it
 currently lexes any string of non-(ascii-whitespace) characters as one token.
 
     $ wc -w readme
-    220 readme
+    281 readme
     $ cat readme | ./lexi | wc -l
-    220
+    281
 
 
 -- performance -----------------------------------------------------------------
 
 lexi consistently uses less than 10KiB for large amounts of random data. this
-has been tested on 1M, 1G, 5G piped from /dev/urandom, as well as on
-`alice29.txt` and `bible.txt` from the canterbury corpus and the large corpus
+has been tested on 1M, 100M, 1G, and 5G piped from /dev/urandom, as well as on
+`bible.txt` and `world192.txt` from the canterbury corpus and the large corpus
 from https://corpus.canterbury.ac.nz/descriptions.
+
+    $ cat bible.txt | /usr/bin/time -f "%M" ./lexi > /dev/null
+    2536
+    $ cat world192.txt | /usr/bin/time -f "%M" ./lexi > /dev/null
+    2592
+    $ cat /dev/urandom | head -c 5G | /usr/bin/time -f "%M" ./lexi > /dev/null
+    2496
+
+the results can vary depending on what is and how it is measured but in general,
+lexi never seems to cross 1MiB.
 

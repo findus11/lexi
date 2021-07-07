@@ -1,0 +1,22 @@
+                                     lexi                                      
+
+lexi is a simple proof-of-concept for a fast, streaming lexer. this is designed
+to lex with only a partial view of the source code available at any moment, and
+without needing to take up more memory than necessary.
+
+it is fed some portion of the source text, which it stores in a buffer. that
+buffer is then tokenized as usual, until the end of the source buffer is
+reached. at any point, more source text can be fed into the lexer. when this
+happens, the buffer is shifted so that only the non-processed source is kept,
+with the new source text being appended onto that. this way, the memory
+footprint can be kept low, even for large amounts of source text.
+
+the demo itself works with pipes - it reads input text from stdin and outputs
+each token onto its own line with the token type, lexeme length, and lexeme. it
+currently lexes any string of non-(ascii-whitespace) characters as one token.
+
+    $ cat readme | wc -w
+    178
+    $ cat readme | ./lexi | wc -l
+    178
+

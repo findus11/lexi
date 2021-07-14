@@ -13,9 +13,9 @@ FLAGS=-fsanitize=undefined -g
 CFLAGS=-Weverything -Wno-padded -std=c99 -O1
 LDFLAGS=
 
-all: make_dirs $(NAME)
+all: make_dirs $(NAME).out
 
-$(NAME): $(OBJECTS)
+$(NAME).out: $(OBJECTS)
 	$(CC) $(LDFLAGS) $(FLAGS) $^ -o $@
 
 $(ODIR)/%.o: $(SDIR)/%.c $(INCLUDE)
@@ -24,7 +24,7 @@ $(ODIR)/%.o: $(SDIR)/%.c $(INCLUDE)
 .PHONY: clean make_dirs
 
 clean:
-	rm -f $(ODIR)/*.o *~ $(NAME)
+	rm -f $(ODIR)/*.o *~ $(NAME).out
 
 make_dirs:
 	mkdir -p $(ODIR)
